@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Fuzzy.h>
+#include "fuzzy_rule_config.h"
 
 class FuzzyInference
 {
@@ -13,7 +14,7 @@ public:
 
     // FuzzyInput (encoder)
     FuzzyInput *encoder = new FuzzyInput(1);
-    FuzzySet *NB = new FuzzySet(0, 0, 0, 25);       // Negatif Besar
+    FuzzySet *NB = new FuzzySet(fuzzy_negatif_besar::a, fuzzy_negatif_besar::b, fuzzy_negatif_besar::c, fuzzy_negatif_besar::d);       // Negatif Besar
     FuzzySet *NK = new FuzzySet(0, 25, 25, 50);     // Negatif Kecil
     FuzzySet *Z = new FuzzySet(25, 50, 50, 75);     // Zero / 0
     FuzzySet *PK = new FuzzySet(50, 75, 75, 100);   // Positif Kecil

@@ -1,18 +1,21 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include "application.h"
+
+Application app;
 
 void setup() {
   // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  app.init();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-}
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  static uint64_t lastRun = 0;
+  if (millis() - lastRun < 10) {
+    lastRun = millis();
+    app.run();
+  }
+  
 }
