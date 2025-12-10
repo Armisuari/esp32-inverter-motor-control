@@ -11,12 +11,12 @@ void FuzzyInference::setup()
     _fuzzy->addFuzzyInput(encoder);
 
     // FuzzyInput (delta error)
-    dError->addFuzzySet(TC);
-    dError->addFuzzySet(TL);
-    dError->addFuzzySet(S);
-    dError->addFuzzySet(NL);
-    dError->addFuzzySet(NC);
-    _fuzzy->addFuzzyInput(dError);
+    deltaerror->addFuzzySet(TC);
+    deltaerror->addFuzzySet(TL);
+    deltaerror->addFuzzySet(S);
+    deltaerror->addFuzzySet(NL);
+    deltaerror->addFuzzySet(NC);
+    _fuzzy->addFuzzyInput(deltaerror);
 
     // FuzzyOutput (frequency)
     frequency->addFuzzySet(KB);
