@@ -3,15 +3,25 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define ENCODER_PINS 2          // Use interrupt-capable pins
+#define PULSES_PER_REVOLUTION 2 // Set how many pulses there are on each revolution.
+#define TIMEOUT 100000           // Timeout in microseconds to consider the encoder stopped.
+
 class rotary_encoder
 {
-    public:
-        bool begin();
-        int32_t getPosition();
-        void setPosition(int32_t position);
-        void handle();
-    private:
-        int32_t _position = 0;
-        int8_t _lastEncoded = 0;
-        const int8_t _encoderPins[2] = {18, 19}; // Example pins, adjust as necessary
+public:
+    bool begin();
+    float getRPM();
+
+private:
+    static void isrRouter();
+    void handlePulse();
+    int16_t _rpm = 0;
+
+    bool _measureDone = false;
+    static rotary_encoder *instance; // For ISR routing
+
+    volatile unsigned long _lastPulseTime = 0;
+    volatile unsigned long _currentTime = 0;
+    volatile unsigned long _periodBetweenPulses = 1;
 };
