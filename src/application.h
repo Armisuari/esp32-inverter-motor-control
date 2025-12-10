@@ -13,6 +13,9 @@ class Application
     private:
         FuzzyInference _fuzzyInference;
         rotary_encoder _rotaryEncoder;
+        float _setpointRPM = 50.0f;
+        float _currentRPM = 0.0f;
 
         void updateFuzzyInputs();
+        void processSerial();
 };
