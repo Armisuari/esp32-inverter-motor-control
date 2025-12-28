@@ -105,3 +105,20 @@ void Application::processSerial()
         }
     }
 }
+
+
+
+
+// Fuzzy Simulation Test Cases:
+// 1. 0,100 → Δ=+100 → expect high increase (freq ~50–60 Hz)            - Fail (Actual: ~45 Hz)
+// 2. 100,0 → Δ=−100 → expect strong decrease (freq ~0–15 Hz)           - Fail (Actual: ~30 Hz)
+// 3. 150,200 → Δ=+50 → expect moderate increase (freq ~45–55 Hz)       - Pass (Actual: ~45 Hz)
+// 4. 200,150 → Δ=−50 → expect moderate decrease (freq ~15–25 Hz)       - Fail (Actual: ~35.49 Hz)
+// 5. 150,150 → Δ=0 → expect no change (freq ~30–45 Hz)                 - Pass (Actual: ~43.75 Hz)
+// 6. 100,105 → Δ=+5 → near-stable (freq ~30–45 Hz)                     - Pass (Actual: ~45 Hz)
+// 7. -100,0 → Δ=+100 → increase (freq ~50–60 Hz)                       - Fail (Actual: ~30 Hz)     
+// 8. -150,-100 → Δ=+50 → small increase (freq ~45–55 Hz)               - Fail (Actual: ~30 Hz)
+// 9. 50,130 → Δ=+80 → stronger increase (freq ~50–60 Hz)               - Fail (Actual: ~47.89 Hz)
+// 10. 130,50 → Δ=−80 → stronger decrease (freq ~10–20 Hz)              - Fail (Actual: ~30 Hz)
+// 11. 0,-80 → Δ=−80 → decrease (freq ~10–20 Hz)                        - Pass (Actual: ~15 Hz)
+// 12. 25,75 → Δ=+50 → moderate increase (freq ~45–55 Hz)               - Pass (Actual: ~45 Hz)
