@@ -27,11 +27,11 @@ FUZZY_RANGE(deltaerror_naik_lambat, 0, 50, 50, 100);
 FUZZY_RANGE(deltaerror_naik_cepat, 50, 100, 100, 100);
 
 // Frequency (output) fuzzy sets
-FUZZY_RANGE(frequency_kurangi_banyak, -10, -10, -10, -5);
-FUZZY_RANGE(frequency_kurangi_sedikit, -10, -5, -5, 0);
-FUZZY_RANGE(frequency_tidak_berubah, -1, 0, 0, 1);
-FUZZY_RANGE(frequency_tambah_sedikit, 0, 5, 5, 10);
-FUZZY_RANGE(frequency_tambah_banyak, 5, 10, 10, 10);
+FUZZY_RANGE(frequency_kurangi_banyak, 0, 0, 0, 15);
+FUZZY_RANGE(frequency_kurangi_sedikit, 0, 15, 15, 30);
+FUZZY_RANGE(frequency_tidak_berubah, 15, 30, 30, 45);
+FUZZY_RANGE(frequency_tambah_sedikit, 30, 45, 45, 60);
+FUZZY_RANGE(frequency_tambah_banyak, 45, 60, 60, 60);
 
 // Undefine helper to avoid leaking macro into other translation units.
 #undef FUZZY_RANGE
