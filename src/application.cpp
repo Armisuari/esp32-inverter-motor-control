@@ -62,16 +62,46 @@ void Application::processSerial()
         String input = Serial.readStringUntil('\n');
         input.trim();
 
-        float newRPM = input.toFloat();
-        if (newRPM >= 0 && newRPM <= 10000)
+        if (input.length() > 0)
         {
-            _setpointRPM = newRPM;
-            Serial.print("Setpoint updated: ");
-            Serial.println(_setpointRPM);
-        }
-        else
-        {
-            Serial.println("RPM invalid (0–10000)");
+            // Find comma separator
+            int commaIndex = input.indexOf(',');
+            
+            if (commaIndex > 0 && commaIndex < input.length() - 1)
+            {
+                // Extract currentRPM and setpointRPM
+                String currentStr = input.substring(0, commaIndex);
+                String setpointStr = input.substring(commaIndex + 1);
+                
+                currentStr.trim();
+                setpointStr.trim();
+                
+                float currentRPM = currentStr.toFloat();
+                float setpointRPM = setpointStr.toFloat();
+                
+                // Validate ranges
+                if (currentRPM >= -300 && currentRPM <= 300 && 
+                    setpointRPM >= -300 && setpointRPM <= 300)
+                {
+                    _currentRPM = currentRPM;
+                    _setpointRPM = setpointRPM;
+                    
+                    Serial.print("Updated -> Current RPM: ");
+                    Serial.print(_currentRPM);
+                    Serial.print(" | Setpoint RPM: ");
+                    Serial.println(_setpointRPM);
+                }
+                else
+                {
+                    Serial.println("Invalid RPM values! Enter values between -100 and 100");
+                    Serial.println("Example: 50,80");
+                }
+            }
+            else
+            {
+                Serial.println("Invalid format! Use: currentRPM,setpointRPM");
+                Serial.println("Example: 100,1500");
+            }
         }
     }
 }
