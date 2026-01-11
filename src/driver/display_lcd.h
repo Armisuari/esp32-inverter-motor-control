@@ -4,7 +4,8 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
-class display_lcd {
+class display_lcd
+{
 public:
   display_lcd(uint8_t addr = 0x27, uint8_t cols = 20, uint8_t rows = 4);
 
@@ -18,6 +19,8 @@ public:
 
   void setData(const String labels[], float *values,
                uint8_t count, uint8_t precision = 1);
+
+  void forceRedraw();
   void update();
 
 private:
@@ -30,4 +33,5 @@ private:
   uint8_t precision;
 
   unsigned long lastUpdate;
+  bool firstDraw;
 };
