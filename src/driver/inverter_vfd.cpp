@@ -8,7 +8,14 @@ InverterVFD::InverterVFD(HardwareSerial &serial, unsigned long baud)
 void InverterVFD::begin(uint8_t modbusAddress)
 {
   slaveAddr = modbusAddress;
-  modbusSerial.begin(currentBaud, SERIAL_8N1);
+  // Dynamic serial pin selection based on board macro
+  #if defined(MC_BOARD_DOIT)
+    modbusSerial.begin(currentBaud, SERIAL_8N1);
+  #elif defined(MC_BOARD_S3)
+    modbusSerial.begin(currentBaud, SERIAL_8N1, 16, 17); // RX=16, TX=17
+  #else
+    modbusSerial.begin(currentBaud, SERIAL_8N1);
+  #endif
   delay(20);
 }
 

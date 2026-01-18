@@ -63,6 +63,9 @@ void LiquidCrystal_I2C::init(){
 
 void LiquidCrystal_I2C::init_priv()
 {
+	#if defined(MC_BOARD_S3)
+		Wire.setPins(8, 9); // SDA=8, SCL=9
+	#endif
 	Wire.begin();
 	_displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
 	begin(_cols, _rows);  
