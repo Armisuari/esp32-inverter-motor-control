@@ -51,6 +51,20 @@ void Application::run()
 {
     processSerial();
 
+    int phaseErrCode = vfd.checkPhaseError();
+
+    if (phaseErrCode > 0)
+    {
+        Serial.print("!!! ALERT: ");
+        Serial.println(vfd.getPhaseErrorString(phaseErrCode));
+        screen2Values[2] = vfd.checkPhaseError();
+    }
+
+    else if (phaseErrCode == -1)
+    {
+        Serial.println("Warning: Cannot read from VFD (Comm Error)");
+    }
+
     _deltaError = _setpointRPM - _currentRPM;
 
     _fuzzyInference.setInput(1, _currentRPM);

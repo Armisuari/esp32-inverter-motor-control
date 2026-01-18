@@ -16,6 +16,11 @@ public:
   bool readOutputFrequency(float &hz);
   bool readOutputCurrent(float &ampere);
   bool readOutputVoltage(float &voltage);
+
+  // Fungsi baru khusus Phase Error
+  int checkPhaseError(); // Mengembalikan 24, 25, 26 atau 0 jika normal
+  String getPhaseErrorString(int errorCode);
+
   void setDebug(bool en);
 
 private:
@@ -31,8 +36,9 @@ private:
   static uint16_t beToU16(const uint8_t *buf);
   static void u16ToBe(uint8_t *buf, uint16_t v);
 
-  static const uint16_t REG_FREQ_COMMAND = 0x2001;
   static const uint16_t REG_CONTROLL_COMMAND = 0x2000;
+  static const uint16_t REG_FREQ_COMMAND = 0x2001;
+  static const uint16_t REG_STATUS_MONITOR = 0x2100; // Address dari gambar
   static const uint16_t REG_OUTPUT_FREQ = 0x2103;
   static const uint16_t REG_OUTPUT_CURR = 0x2104;
   static const uint16_t REG_OUTPUT_VOLTAGE = 0x2109;
