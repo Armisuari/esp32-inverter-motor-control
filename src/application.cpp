@@ -100,43 +100,48 @@ void Application::processSerial()
 
         if (input.length() > 0)
         {
-            // Find comma separator
-            int commaIndex = input.indexOf(',');
+            // Parse command format: "curr <value>" or "setp <value>"
+            int spaceIndex = input.indexOf(' ');
 
-            if (commaIndex > 0 && commaIndex < input.length() - 1)
+            if (spaceIndex > 0 && spaceIndex < input.length() - 1)
             {
-                // Extract currentRPM and setpointRPM
-                String currentStr = input.substring(0, commaIndex);
-                String setpointStr = input.substring(commaIndex + 1);
+                String command = input.substring(0, spaceIndex);
+                String valueStr = input.substring(spaceIndex + 1);
+                command.trim();
+                valueStr.trim();
 
-                currentStr.trim();
-                setpointStr.trim();
+                float value = valueStr.toFloat();
 
-                float currentRPM = currentStr.toFloat();
-                float setpointRPM = setpointStr.toFloat();
-
-                // Validate ranges
-                if (currentRPM >= -300 && currentRPM <= 300 &&
-                    setpointRPM >= -300 && setpointRPM <= 300)
+                // Validate range
+                if (value >= -300 && value <= 300)
                 {
-                    _currentRPM = currentRPM;
-                    _setpointRPM = setpointRPM;
-
-                    Serial.print("Updated -> Current RPM: ");
-                    Serial.print(_currentRPM);
-                    Serial.print(" | Setpoint RPM: ");
-                    Serial.println(_setpointRPM);
+                    if (command == "curr" || command == "current")
+                    {
+                        _currentRPM = value;
+                        Serial.print("Updated -> Current RPM: ");
+                        Serial.println(_currentRPM);
+                    }
+                    else if (command == "setp" || command == "setpoint")
+                    {
+                        _setpointRPM = value;
+                        Serial.print("Updated -> Setpoint RPM: ");
+                        Serial.println(_setpointRPM);
+                    }
+                    else
+                    {
+                        Serial.println("Invalid command! Use 'curr' or 'setp'");
+                        Serial.println("Examples: curr 100 | setp 250");
+                    }
                 }
                 else
                 {
-                    Serial.println("Invalid RPM values! Enter values between -100 and 100");
-                    Serial.println("Example: 50,80");
+                    Serial.println("Invalid RPM value! Enter values between -300 and 300");
                 }
             }
             else
             {
-                Serial.println("Invalid format! Use: currentRPM,setpointRPM");
-                Serial.println("Example: 100,1500");
+                Serial.println("Invalid format! Use: curr <value> or setp <value>");
+                Serial.println("Examples: curr 100 | setp 250");
             }
         }
     }
