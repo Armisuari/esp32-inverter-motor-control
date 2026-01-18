@@ -35,11 +35,12 @@ private:
     };
     float screen1Values[4];
 
-    String screen2Labels[2] = {
+    String screen2Labels[3] = {
         "OUT V",
-        "OUT I"
+        "OUT I",
+        "ERROR"
     };
-    float screen2Values[2];
+    float screen2Values[3];
 
     uint8_t currentScreen = 0;
     unsigned long lastScreenChange = 0;

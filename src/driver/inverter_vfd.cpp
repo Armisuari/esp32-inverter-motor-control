@@ -112,6 +112,35 @@ bool InverterVFD::writeRegister(uint16_t reg, uint16_t value, uint16_t timeout_m
   return memcmp(req, resp, 6) == 0;
 }
 
+int InverterVFD::checkPhaseError()
+{
+  uint16_t val;
+  if (!readRegister(REG_STATUS_MONITOR, val))
+    return -1;
+
+  if (val >= 24 && val <= 26)
+    return (int)val;
+
+  return 0;
+}
+
+String InverterVFD::getPhaseErrorString(int errorCode)
+{
+  switch (errorCode)
+  {
+  case 24:
+    return "U-phase error";
+  case 25:
+    return "V-phase error";
+  case 26:
+    return "W-phase error";
+  case -1:
+    return "Comm Error";
+  default:
+    return "Normal";
+  }
+}
+
 bool InverterVFD::setSpeedHz(float hz)
 {
   uint16_t val = (uint16_t)(hz / SCALE_FREQ);
@@ -155,7 +184,4 @@ bool InverterVFD::readOutputVoltage(float &voltage)
   return true;
 }
 
-void InverterVFD::setDebug(bool en)
-{
-  debug = en;
-}
+void InverterVFD::setDebug(bool en) { debug = en; }
