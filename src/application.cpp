@@ -49,60 +49,62 @@ void Application::updateLCD()
 
 void Application::run()
 {
-    processSerial();
+    _currentRPM = _rotaryEncoder.getRPM();
+    Serial.println("Current Encoder RPM: " + String(_currentRPM));
+    // processSerial();
 
-    int phaseErrCode = vfd.checkPhaseError();
+    // int phaseErrCode = vfd.checkPhaseError();
 
-    if (phaseErrCode > 0)
-    {
-        Serial.print("!!! ALERT: ");
-        Serial.println(vfd.getPhaseErrorString(phaseErrCode));
-        screen2Values[2] = vfd.checkPhaseError();
-    }
+    // if (phaseErrCode > 0)
+    // {
+    //     Serial.print("!!! ALERT: ");
+    //     Serial.println(vfd.getPhaseErrorString(phaseErrCode));
+    //     screen2Values[2] = vfd.checkPhaseError();
+    // }
 
-    else if (phaseErrCode == -1)
-    {
-        Serial.println("Warning: Cannot read from VFD (Comm Error)");
-    }
+    // else if (phaseErrCode == -1)
+    // {
+    //     Serial.println("Warning: Cannot read from VFD (Comm Error)");
+    // }
 
-    _deltaError = _setpointRPM - _currentRPM;
+    // _deltaError = _setpointRPM - _currentRPM;
 
-    _fuzzyInference.setInput(1, _currentRPM);
-    _fuzzyInference.setInput(2, _deltaError);
-    _fuzzyInference.fuzzify();
+    // _fuzzyInference.setInput(1, _currentRPM);
+    // _fuzzyInference.setInput(2, _deltaError);
+    // _fuzzyInference.fuzzify();
 
-    _freqAdjust = _fuzzyInference.defuzzify(1);
-    vfd.setSpeedHz(_freqAdjust);
+    // _freqAdjust = _fuzzyInference.defuzzify(1);
+    // vfd.setSpeedHz(_freqAdjust);
 
-    screen1Values[0] = _currentRPM;
-    screen1Values[1] = _setpointRPM;
-    screen1Values[2] = _deltaError;
-    screen1Values[3] = _freqAdjust;
+    // screen1Values[0] = _currentRPM;
+    // screen1Values[1] = _setpointRPM;
+    // screen1Values[2] = _deltaError;
+    // screen1Values[3] = _freqAdjust;
 
-    if (vfd.readOutputVoltage(_voltageOut))
-    {
-        screen2Values[0] = _voltageOut;
-    }
+    // if (vfd.readOutputVoltage(_voltageOut))
+    // {
+    //     screen2Values[0] = _voltageOut;
+    // }
 
-    if (vfd.readOutputCurrent(_currentOut))
-    {
-        screen2Values[1] = _currentOut;
-    }
+    // if (vfd.readOutputCurrent(_currentOut))
+    // {
+    //     screen2Values[1] = _currentOut;
+    // }
 
-    updateLCD();
+    // updateLCD();
 
-    Serial.print("CUR: ");
-    Serial.print(_currentRPM);
-    Serial.print(" | SET: ");
-    Serial.print(_setpointRPM);
-    Serial.print(" | ERR: ");
-    Serial.print(_deltaError);
-    Serial.print(" | FREQ: ");
-    Serial.println(_freqAdjust);
-    Serial.print(" | V: ");
-    Serial.print(_voltageOut);
-    Serial.print(" | I: ");
-    Serial.println(_currentOut);
+    // Serial.print("CUR: ");
+    // Serial.print(_currentRPM);
+    // Serial.print(" | SET: ");
+    // Serial.print(_setpointRPM);
+    // Serial.print(" | ERR: ");
+    // Serial.print(_deltaError);
+    // Serial.print(" | FREQ: ");
+    // Serial.println(_freqAdjust);
+    // Serial.print(" | V: ");
+    // Serial.print(_voltageOut);
+    // Serial.print(" | I: ");
+    // Serial.println(_currentOut);
 }
 
 void Application::processSerial()
