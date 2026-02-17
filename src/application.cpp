@@ -1,7 +1,7 @@
 #include "application.h"
 #include <Arduino.h>
 
-#define SIMULATION_TESTING 1
+// #define SIMULATION_TESTING 1
 
 Application::Application()
     : vfd(Serial2, 9600),
@@ -51,13 +51,13 @@ void Application::updateLCD()
 
 void Application::run()
 {
-#if SIMULATION_TESTING == 0
+// #if SIMULATION_TESTING == 0
     _currentRPM = _rotaryEncoder.getRPM();
-    Serial.println("Current Encoder RPM: " + String(_currentRPM));
-#else
+    // Serial.println("Current Encoder RPM: " + String(_currentRPM));
+// #else
     // Simulation Mode: Increment current RPM towards setpoint RPM
     processSerial();
-#endif
+// #endif
 
     int phaseErrCode = vfd.checkPhaseError();
 
@@ -99,18 +99,17 @@ void Application::run()
 
     updateLCD();
 
-    Serial.print("CUR: ");
-    Serial.print(_currentRPM);
-    Serial.print(" | SET: ");
+    Serial.print("sp:");
     Serial.print(_setpointRPM);
-    Serial.print(" | ERR: ");
-    Serial.print(_deltaError);
-    Serial.print(" | FREQ: ");
+    Serial.print("\t");
+    Serial.print("rpm:");
+    Serial.print(_currentRPM);
+    // Serial.print("\t");
+    // Serial.print("delta error:");
+    // Serial.print(_deltaError);
+    Serial.print("\t");
+    Serial.print("freq:");
     Serial.println(_freqAdjust);
-    Serial.print(" | V: ");
-    Serial.print(_voltageOut);
-    Serial.print(" | I: ");
-    Serial.println(_currentOut);
 }
 
 void Application::processSerial()
@@ -137,13 +136,14 @@ void Application::processSerial()
                 // Validate range
                 if (value >= -300 && value <= 300)
                 {
-                    if (command == "curr" || command == "current")
-                    {
-                        _currentRPM = value;
-                        Serial.print("Updated -> Current RPM: ");
-                        Serial.println(_currentRPM);
-                    }
-                    else if (command == "setp" || command == "setpoint")
+                    // if (command == "curr" || command == "current")
+                    // {
+                    //     _currentRPM = value;
+                    //     Serial.print("Updated -> Current RPM: ");
+                    //     Serial.println(_currentRPM);
+                    // }
+                    // else 
+                    if (command == "setp" || command == "setpoint")
                     {
                         _setpointRPM = value;
                         Serial.print("Updated -> Setpoint RPM: ");
