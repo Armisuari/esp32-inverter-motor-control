@@ -51,13 +51,10 @@ void Application::updateLCD()
 
 void Application::run()
 {
-// #if SIMULATION_TESTING == 0
     _currentRPM = _rotaryEncoder.getRPM();
-    // Serial.println("Current Encoder RPM: " + String(_currentRPM));
-// #else
+
     // Simulation Mode: Increment current RPM towards setpoint RPM
     processSerial();
-// #endif
 
     int phaseErrCode = vfd.checkPhaseError();
 
