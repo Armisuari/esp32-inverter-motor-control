@@ -1,7 +1,9 @@
 #pragma once
 
 #include <Arduino.h>
+#ifndef NO_FUZZY
 #include "system/fuzzy_inference.h"
+#endif
 #include "driver/inverter_vfd.h"
 #include "driver/rotary_encoder.h"
 #include "driver/display_lcd.h"
@@ -14,7 +16,9 @@ public:
     void run();
 
 private:
+#ifndef NO_FUZZY
     FuzzyInference _fuzzyInference;
+#endif
     rotary_encoder _rotaryEncoder;
 
     InverterVFD vfd;

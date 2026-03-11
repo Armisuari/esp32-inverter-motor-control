@@ -13,18 +13,18 @@
     }
 
 // Encoder fuzzy sets
-FUZZY_RANGE(encoder_negatif_besar, -300, -300, -300, -150);
-FUZZY_RANGE(encoder_negatif_kecil, -300, -150, -150, 0);
-FUZZY_RANGE(encoder_zero, -50, 0, 0, 50);
-FUZZY_RANGE(encoder_positif_kecil, 0, 150, 150, 300);
-FUZZY_RANGE(encoder_positif_besar, 150, 300, 300, 300);
+FUZZY_RANGE(encoder_negatif_besar, -1350, -1350, -1350, -900);
+FUZZY_RANGE(encoder_negatif_kecil, -1100, -600, -600, -200);
+FUZZY_RANGE(encoder_zero, -250, 0, 0, 250);
+FUZZY_RANGE(encoder_positif_kecil, 200, 600, 600, 1100);
+FUZZY_RANGE(encoder_positif_besar, 900, 1350, 1350, 1350);
 
 // Delta error fuzzy sets
-FUZZY_RANGE(deltaerror_turun_cepat, -100, -100, -100, -50);
-FUZZY_RANGE(deltaerror_turun_lambat, -100, -50, -50, 0);
-FUZZY_RANGE(deltaerror_stabil, -10, 0, 0, 10);
-FUZZY_RANGE(deltaerror_naik_lambat, 0, 50, 50, 100);
-FUZZY_RANGE(deltaerror_naik_cepat, 50, 100, 100, 100);
+FUZZY_RANGE(deltaerror_turun_cepat, -500, -500, -500, -300);
+FUZZY_RANGE(deltaerror_turun_lambat, -420, -250, -250, -80);
+FUZZY_RANGE(deltaerror_stabil, -100, 0, 0, 100);
+FUZZY_RANGE(deltaerror_naik_lambat, 80, 250, 250, 420);
+FUZZY_RANGE(deltaerror_naik_cepat, 300, 500, 500, 500);
 
 // Frequency (output) fuzzy sets
 FUZZY_RANGE(frequency_kurangi_banyak, 0, 0, 0, 15);

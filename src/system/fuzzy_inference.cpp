@@ -1,3 +1,5 @@
+#ifndef NO_FUZZY
+
 #include "fuzzy_inference.h"
 
 void FuzzyInference::setup()
@@ -211,3 +213,5 @@ float FuzzyInference::defuzzify(int fuzzyOutputIndex)
 {
     return _fuzzy->defuzzify(fuzzyOutputIndex);
 }
+
+#endif // NO_FUZZY

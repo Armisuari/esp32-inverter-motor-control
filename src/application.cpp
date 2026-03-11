@@ -22,7 +22,9 @@ void Application::init()
     lcd.setData(screen1Labels, screen1Values, 4, 1);
 
     _rotaryEncoder.begin();
+#ifndef NO_FUZZY
     _fuzzyInference.setup();
+#endif
 
     vfd.begin(1);
     vfd.start();
@@ -51,10 +53,13 @@ void Application::updateLCD()
 
 void Application::run()
 {
-    _currentRPM = _rotaryEncoder.getRPM();
-
+// #if SIMULATION_TESTING == 0
+    _currentRPM = _rotaryEncoder.getFilteredRPM();
+    // Serial.println("Current Encoder RPM: " + String(_currentRPM));
+// #else
     // Simulation Mode: Increment current RPM towards setpoint RPM
     processSerial();
+// #endif
 
     int phaseErrCode = vfd.checkPhaseError();
 
@@ -72,12 +77,16 @@ void Application::run()
 
     _deltaError = _setpointRPM - _currentRPM;
 
+#ifndef NO_FUZZY
     _fuzzyInference.setInput(1, _currentRPM);
     _fuzzyInference.setInput(2, _deltaError);
     _fuzzyInference.fuzzify();
 
     _freqAdjust = _fuzzyInference.defuzzify(1);
     vfd.setSpeedHz(_freqAdjust);
+#else
+    vfd.setSpeedHz(_freqAdjust);
+#endif
 
     screen1Values[0] = _currentRPM;
     screen1Values[1] = _setpointRPM;
@@ -131,7 +140,7 @@ void Application::processSerial()
                 float value = valueStr.toFloat();
 
                 // Validate range
-                if (value >= -300 && value <= 300)
+                if (value >= -3000 && value <= 3000)
                 {
                     // if (command == "curr" || command == "current")
                     // {
@@ -146,10 +155,18 @@ void Application::processSerial()
                         Serial.print("Updated -> Setpoint RPM: ");
                         Serial.println(_setpointRPM);
                     }
+#ifdef NO_FUZZY
+                    else if (command == "freq")
+                    {
+                        _freqAdjust = value;
+                        Serial.print("Updated -> Freq Hz: ");
+                        Serial.println(_freqAdjust);
+                    }
+#endif
                     else
                     {
-                        Serial.println("Invalid command! Use 'curr' or 'setp'");
-                        Serial.println("Examples: curr 100 | setp 250");
+                        Serial.println("Invalid command! Use 'setp' or 'freq'");
+                        Serial.println("Examples: setp 250 | freq 30");
                     }
                 }
                 else

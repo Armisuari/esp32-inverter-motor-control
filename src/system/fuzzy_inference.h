@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_FUZZY
+
 #include <Fuzzy.h>
 #include "fuzzy_rule_config.h"
 
@@ -39,3 +41,5 @@ public:
 private:
     Fuzzy *_fuzzy = new Fuzzy();
 };
+
+#endif // NO_FUZZY
